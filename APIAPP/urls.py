@@ -22,6 +22,8 @@ urlpatterns = [
     # path('change/',change_password,name = 'change_password'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('add/',product_add,name= 'product_add'),
+    path('ad/',add_product,name= 'add_product'),
 
 ]
 

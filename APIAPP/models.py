@@ -8,3 +8,9 @@ class Users(models.Model):
 
     # def __str__(self):
     #     return f"{self.username or 'No Username'}"
+
+#Admin
+class Product(models.Model):
+    product_name = models.CharField(max_length=100)
+    product_price = models.FloatField(default=100.00)  
+    

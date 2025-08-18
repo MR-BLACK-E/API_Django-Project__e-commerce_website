@@ -30,10 +30,10 @@ class UserLoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 # #Product
-# class Productserializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Product
-#         fields = '__all__'
+class Productserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
 
 # #todo
 # class TodoSerializer(serializers.ModelSerializer):
