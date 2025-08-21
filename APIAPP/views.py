@@ -136,23 +136,24 @@ def reset_password(request):
 
 #Admin Access
    
-@api_view(['POST'])
-# @permission_classes([IsAuthenticated])
-def product_add(request):  
-    username = request.data.get("username")
-    username = User.objects.get(username = username)
-    if username != username:
-        return Response({"ERROR" : "Only Admin can add products!"})
+# @api_view(['POST'])
+# # @permission_classes([IsAuthenticated])
+# def product_add(request):  
+#     username = request.data.get("username")
+#     username = User.objects.get(username = username)
+#     if username != username:
+#         return Response({"ERROR" : "Only Admin can add products!"})
     
-    serializer = Productserializer(data=request.data)
+#     serializer = Productserializer(data=request.data)
 
-    if serializer.is_valid():  
-        username = User.objects.get(username = username)     
-        serializer.save()
-        return Response({"message": "Product added successfully"})
-    return Response(serializer.errors)
+#     if serializer.is_valid():  
+#         username = User.objects.get(username = username)     
+#         serializer.save()
+#         return Response({"message": "Product added successfully"})
+#     return Response(serializer.errors)
 
 # Admin access
+# Add Product
 @api_view(['POST'])
 @permission_classes([IsAuthenticated]) 
 def add_product(request):
@@ -162,5 +163,5 @@ def add_product(request):
     serializer = Productserializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message" : "Product added successfully"})
+    return Response(serializer.errors)

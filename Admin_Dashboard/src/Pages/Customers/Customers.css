@@ -1,0 +1,8 @@
+.Customers{
+    display:grid;
+    place-items: center;
+}
+
+.Customers h2{
+    /* color: greenyellow; */
+}
