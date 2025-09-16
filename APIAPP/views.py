@@ -44,14 +44,19 @@ def login(request):
         password = serializer.data['password']
         user = Users.objects.get(username=username)
         
-        if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username already taken'})
-
+        if Users.DoesNotExist:
+            return Response({'error': 'User not found!'})
+        # if Users.objects.filter(username = username).exists():
+            # return Response({'error': 'User not found'})
+        # if username != user.username:
+        #     return Response({'error': 'User not found'})
         if check_password(password,user.password):
             return Response({"message": "Login successful"})
         else:
             return Response({"error": "Invalid password"})
-        
+        # else:
+        #      return Response({'error': 'User not found'})   
+            
     return Response(serializer.errors)
 
 
