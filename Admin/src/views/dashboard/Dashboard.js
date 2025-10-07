@@ -54,6 +54,22 @@ import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 
+const handleLogout = () => {
+  localStorage.removeItem("adminAccessToken");
+  localStorage.removeItem("adminRefreshToken");
+  window.location.href = "/#/admin/Login"; // redirect after logout
+};
+
+// return (
+//   <div>
+//     <h1>Welcome to Admin Dashboard</h1>
+//     <button className="btn btn-danger" onClick={handleLogout}>
+//       Logout
+//     </button>
+//   </div>
+// );
+
+
 const Dashboard = () => {
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
@@ -178,8 +194,10 @@ const Dashboard = () => {
 
   return (
     <>
+  
       <WidgetsDropdown className="mb-4" />
       <CCard className="mb-4">
+
         <CCardBody>
           <CRow>
             <CCol sm={5}>
@@ -237,6 +255,7 @@ const Dashboard = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
+             
             <CCardHeader>Traffic {' & '} Sales</CCardHeader>
             <CCardBody>
               <CRow>
@@ -378,6 +397,11 @@ const Dashboard = () => {
               </CTable>
             </CCardBody>
           </CCard>
+            <div className=''>
+              <button className="btn btn-danger " onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
         </CCol>
       </CRow>
     </>

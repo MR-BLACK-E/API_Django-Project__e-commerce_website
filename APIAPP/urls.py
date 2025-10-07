@@ -16,15 +16,18 @@ urlpatterns = [
     
     path('register/',register, name='register'),
     path('login/',login, name='login'),
-    # path('forget/',forget_password,name = 'forget_password'),
     path('reset/',reset_password,name = 'reset_password'),
     path('forget/',send_email, name = 'send_email'),
-    # path('change/',change_password,name = 'change_password'),
+
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('product_add/',product_add,name= 'product_add'),
-    path('add/',add_product,name= 'add_product'),
+    path('adminlogin/',admin_login,name= 'admin_login'),
+    path('product/',add_product,name= 'add_product'),
+    path('category/',add_category,name= 'add_category'),
+    path('categories/',get_categories,name= 'get_category'), 
 
+    path("categoriesview/", CategoryListView.as_view(), name="categories"),
+    path("productsview/", ProductListView.as_view(), name="products"),
 ]
 
 

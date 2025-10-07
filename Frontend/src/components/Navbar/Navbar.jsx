@@ -3,6 +3,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "../ProtectedRoute";
 const NavBar = () => {
   const { cartList } = useSelector((state) => state.cart);
   const [expand, setExpand] = useState(false);
@@ -103,10 +104,10 @@ const NavBar = () => {
               <Link
                 aria-label="Go to Shop Page"
                 className="navbar-link"
-                to="/registration"
+                to="/productsview"
                 onClick={() => setExpand(false)}
               >
-                <span className="nav-link-label">Registration</span>
+                <span className="nav-link-label">Product List</span>
               </Link>
             </Nav.Item>
 
@@ -125,14 +126,25 @@ const NavBar = () => {
               <Link
                 aria-label="Go to Shop Page"
                 className="navbar-link"
+                to="/user"
+                onClick={() => setExpand(false)}
+              >
+                <span className="nav-link-label">My Account</span>
+              </Link>
+            </Nav.Item>
+
+            {/* <Nav.Item>
+              <Link
+                aria-label="Go to Shop Page"
+                className="navbar-link"
                 to="/orders"
                 onClick={() => setExpand(false)}
               >
                 <span className="nav-link-label">My Orders</span>
               </Link>
-            </Nav.Item>
+            </Nav.Item> */}
 
-            <Nav.Item>
+            {/* <Nav.Item>
               <Link
                 aria-label="Go to Shop Page"
                 className="navbar-link"
@@ -141,7 +153,7 @@ const NavBar = () => {
               >
                 <span className="nav-link-label">Order Summery</span>
               </Link>
-            </Nav.Item>
+            </Nav.Item> */}
 
             {/* <Nav.Item>
               <Link
@@ -167,7 +179,7 @@ const NavBar = () => {
             <Nav.Item className="expanded-cart">
                <Link
                 aria-label="Go to Cart Page"
-                to="/login"
+                to="/user"
                 // className="cart"
                 // data-num={cartList.length}
               >

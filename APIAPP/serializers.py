@@ -5,7 +5,7 @@ from .models import *
 
 
 
-#todo
+#Registration
 class RegisterSrializer(serializers.ModelSerializer):
     class Meta:
         model = Users
@@ -29,16 +29,26 @@ class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
-# #Product
-class Productserializer(serializers.ModelSerializer):
+#show User_details
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = '__all__'
+        model = Users
+        fields = ["id", "username", "email"]    
 
-# #todo
-# class TodoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Todo
-#         fields = ['user', 'task']        
+#Category
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ["id", "name"]
+        # fields = "__all__"
+
+#Admin Product
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Products
+        fields = ["category", "name", "price","description","image"]    
+
+
+      
 
 

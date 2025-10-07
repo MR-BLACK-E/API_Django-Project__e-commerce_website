@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'APIAPP',
     'rest_framework',
     'rest_framework_simplejwt',
-    # 'corsheaders',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -48,6 +49,12 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
+
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),  # longer access
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+# }
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,6 +64,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+]
+
+# Allow React frontend
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'apiproject.urls'

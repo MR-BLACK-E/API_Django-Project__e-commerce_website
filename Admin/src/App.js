@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import ProtectedRoute from "./components/PrivateRoute";
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
@@ -18,7 +19,12 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 // const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
 //My Pages
-const Login = React.lazy(() => import('./views/pages/login/Login'))
+// const Login = React.lazy(() => import('./views/pages/login/Login'))
+const Login = React.lazy(() => import('./Pages/Login/Login'))
+const Products = React.lazy(() => import('./Pages/Products/Products'))
+const Category = React.lazy(() => import('./Pages/Category/Category'))
+const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
+
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
@@ -52,11 +58,14 @@ const App = () => {
         }
       >
         <Routes>
-          <Route exact path="/login" name="Login Page" element={<Login />} />
+          <Route exact path="/admin/Category" name="Category" element={<ProtectedRoute><Category/></ProtectedRoute>} />
+          <Route exact path="/admin/Products" name="Products" element={<ProtectedRoute><Products/></ProtectedRoute>} />
+          <Route exact path="/admin/Dashboard" name="Dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
+          <Route exact path="/admin/Login" name="Login Page" element={<Login/>} />
           <Route exact path="/register" name="Register Page" element={<Register />} />
           <Route exact path="/404" name="Page 404" element={<Page404 />} />
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
-          <Route path="*" name="Home" element={<DefaultLayout />} />
+          <Route path="*" name="Home" element={<ProtectedRoute><DefaultLayout /></ProtectedRoute>} />
         </Routes>
       </Suspense>
     </HashRouter>

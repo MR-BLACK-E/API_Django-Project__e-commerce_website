@@ -3,8 +3,11 @@ import React from 'react'
 // My Pages
 const Customers = React.lazy(() => import('./Pages/Customers/Customers'))
 const Products = React.lazy(() => import('./Pages/Products/Products'))
+const Category = React.lazy(() => import('./Pages/Category/Category'))
 const Orders = React.lazy(() => import('./Pages/Orders/Orders'))
 const Settings = React.lazy(() => import('./Pages/Settings/Settings'))
+const Login = React.lazy(() => import('./Pages/Login/Login'))
+
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 // const Products = React.lazy(() => import('./views/Products/Products'))
@@ -66,6 +69,9 @@ const routes = [
   { path: '/Orders', name: 'Orders', element: Orders },
   { path: '/Products', name: 'Products', element: Products },
   { path: '/Settings', name: 'Settings', element: Settings },
+  { path: '/Login', name: 'Login', element: Login },
+  { path: '/Category', name: 'Category', element: Category },
+
 
 //misc
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },

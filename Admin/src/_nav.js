@@ -16,11 +16,11 @@ import {
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 import Pruducts from './Pages/Products/Products'
-
+import Category from './Pages/Category/Category'
 import Orders from './Pages/Orders/Orders'
 import Customers from './Pages/Customers/Customers'
 import Settings from './Pages/Settings/Settings'
-
+import Login from './Pages/Login/Login'
 
 
 const _nav = [
@@ -33,6 +33,18 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
+  },
+  {
+    component: CNavItem,
+    name: 'Login',
+    to: '/Login',
+    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Category',
+    to: '/Category',
+    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
   },
     {
     component: CNavItem,

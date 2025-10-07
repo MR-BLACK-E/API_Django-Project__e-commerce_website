@@ -36,29 +36,58 @@ def register(request):
     return Response(serializer.errors)
 
 #login
+# @api_view(['POST'])
+# def login(request):
+#     serializer = UserLoginSerializer(data=request.data)
+#     if serializer.is_valid():
+#         username = serializer.data['username']
+#         password = serializer.data['password']
+        
+#         user = Users.objects.get(username=username)
+        
+#         if check_password(password,user.password):
+#             return Response({"message": "Login successful"})
+#         else:
+#             return Response({"error": "Invalid password"})
+           
+#     return Response(serializer.errors)
+
+
 @api_view(['POST'])
 def login(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
-        username = serializer.data['username']
-        password = serializer.data['password']
-        user = Users.objects.get(username=username)
-        
-        if Users.DoesNotExist:
-            return Response({'error': 'User not found!'})
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        try:
+            user = Users.objects.get(username=username)
+        except Users.DoesNotExist:
+            return Response({"error": "Invalid username"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if check_password(password, user.password):
+            user_data = UserSerializer(user).data
+            return Response({
+                                "message": "Login successful",
+                                "user": user_data
+                             }, status=status.HTTP_200_OK)                       
+        else:
+            return Response({"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# if user.DoesNotExist:
+        #     return Response({'error': 'User not found!'})
         # if Users.objects.filter(username = username).exists():
             # return Response({'error': 'User not found'})
         # if username != user.username:
         #     return Response({'error': 'User not found'})
-        if check_password(password,user.password):
-            return Response({"message": "Login successful"})
-        else:
-            return Response({"error": "Invalid password"})
-        # else:
-        #      return Response({'error': 'User not found'})   
-            
-    return Response(serializer.errors)
+#  user = authenticate(username=username, password=password)
 
+    # if user is not None:
+    #     return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+    # else:
+    #     return Response({"error": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
 
 #Forget Password 
 # @api_view(['POST'])
@@ -160,13 +189,69 @@ def reset_password(request):
 # Admin access
 # Add Product
 @api_view(['POST'])
-@permission_classes([IsAuthenticated]) 
+# @permission_classes([IsAuthenticated]) 
 def add_product(request):
     if not request.user.is_staff: 
         raise PermissionDenied("Only admin can add products.")
     
-    serializer = Productserializer(data=request.data)
+    serializer = ProductSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response({"message" : "Product added successfully"})
     return Response(serializer.errors)
+
+# Add Category
+@api_view(['POST'])
+# @permission_classes([IsAuthenticated]) 
+def add_category(request):
+    if not request.user.is_staff: 
+        raise PermissionDenied("Only admin can create category.")
+    
+    serializer = CategorySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"message" : "Category added successfully"})
+    return Response(serializer.errors)
+#get category
+
+@api_view(['GET'])
+def get_categories(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
+
+#Admin Login
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
+def admin_login(request):
+    serializer = UserLoginSerializer(data=request.data)
+    if serializer.is_valid():
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"error": "User not found"}, status=404)
+
+        # check password
+        if check_password(password, user.password):
+            if user.is_staff:  
+                return Response({"message": "Admin login successful"})
+            else:
+                return Response({"error": "You are not an admin"}, status=403)
+        else:
+            return Response({"error": "Invalid password"}, status=400)
+
+    return Response(serializer.errors, status=400)
+
+# category and product view
+
+class CategoryListView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class ProductListView(generics.ListAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
