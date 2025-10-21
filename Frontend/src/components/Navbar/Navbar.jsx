@@ -100,7 +100,7 @@ const NavBar = () => {
               </Link>
             </Nav.Item>
 
-            <Nav.Item>
+            {/* <Nav.Item>
               <Link
                 aria-label="Go to Shop Page"
                 className="navbar-link"
@@ -109,7 +109,7 @@ const NavBar = () => {
               >
                 <span className="nav-link-label">Product List</span>
               </Link>
-            </Nav.Item>
+            </Nav.Item> */}
 
             <Nav.Item>
               <Link

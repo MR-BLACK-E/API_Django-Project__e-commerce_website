@@ -50,10 +50,19 @@ REST_FRAMEWORK = {
     )
 }
 
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),  # longer access
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-# }
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'AUTH_USER_MODEL': 'APIAPP.Users',
+}
+
+from datetime import timedelta
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),  # longer access
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+}
 
 
 MIDDLEWARE = [
@@ -70,6 +79,7 @@ MIDDLEWARE = [
 # Allow React frontend
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
 
 ROOT_URLCONF = 'apiproject.urls'
@@ -173,5 +183,6 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+AUTH_USER_MODEL = 'APIAPP.Users'
 
 

@@ -2,7 +2,8 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import *
 from rest_framework import serializers
 from .models import *
-
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 #Registration
@@ -46,9 +47,52 @@ class CategorySerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Products
-        fields = ["category", "name", "price","description","image"]    
+        fields = ["id","category", "name", "price","description","image"]    
+
+#Cart
+# class CartSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Cart
+#         fields = '__all__'
 
 
+class CartSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    product_id = serializers.PrimaryKeyRelatedField(write_only=True, queryset=Products.objects.all(), source='product')
+
+    class Meta:
+        model = Cart
+        fields = ['id','product','product_id','quantity']
+        # fields = '__all__'
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    class Meta:
+        model = OrderItem
+        fields = ['id','product','quantity','price']
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+    class Meta:
+        model = Order
+        fields = ['id','total_amount','status','created_at','items']        
       
+
+
+
+class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+
+        # Only allow staff or superuser
+        if not (user.is_staff or user.is_superuser):
+            raise serializers.ValidationError(
+                {"detail": "You are not authorized to access the admin panel."}
+            )
+
+        data['username'] = user.username
+        return data
+
 
 

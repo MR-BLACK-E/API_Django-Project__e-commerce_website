@@ -20,8 +20,10 @@ const ProductList = () => {
               {prod.image && (
                 <img
                   src={`http://127.0.0.1:8000${prod.image}`}
+                  // src={`http://127.0.0.1:8000/media/products/s24ultra_Ak59B0e.webp`}
                   className="card-img-top"
                   alt={prod.name}
+                  style={{maxWidth:150}}
                 />
               )}
               <div className="card-body">

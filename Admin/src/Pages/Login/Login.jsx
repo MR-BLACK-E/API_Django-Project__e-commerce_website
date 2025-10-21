@@ -21,7 +21,8 @@ const AdminLogin = () => {
       window.location.href = "*"; // ✅ HashRouter fix
     } catch (err) {
       console.error("Login failed", err);
-      alert("Invalid credentials");
+      // alert("Invalid credentials");
+      alert("Only Admin can Login");
     }
   };
 

@@ -19,10 +19,11 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.views import APIView
 #permission
 from rest_framework.decorators import  permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 #Register
@@ -30,8 +31,9 @@ from rest_framework.exceptions import PermissionDenied
 def register(request):
     serializer = RegisterSrializer(data=request.data)
    
-    if serializer.is_valid():       
-        serializer.save()
+    if serializer.is_valid():
+        user = serializer.save(is_staff=False, is_superuser=False)       
+        # serializer.save()
         return Response({"message": "User registered successfully"})
     return Response(serializer.errors)
 
@@ -53,6 +55,32 @@ def register(request):
 #     return Response(serializer.errors)
 
 
+# @api_view(['POST'])
+# def login(request):
+#     serializer = UserLoginSerializer(data=request.data)
+#     if serializer.is_valid():
+#         username = serializer.validated_data['username']
+#         password = serializer.validated_data['password']
+
+#         try:
+#             user = Users.objects.get(username=username)
+#         except Users.DoesNotExist:
+#             return Response({"error": "Invalid username"}, status=status.HTTP_400_BAD_REQUEST)
+
+#         if check_password(password, user.password):
+#             user_data = UserSerializer(user).data
+#             return Response({
+#                                 "message": "Login successful",
+#                                 "user": user_data
+#                              }, status=status.HTTP_200_OK)                       
+#         else:
+#             return Response({"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
+
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Login with Token
+from rest_framework_simplejwt.tokens import RefreshToken 
+
 @api_view(['POST'])
 def login(request):
     serializer = UserLoginSerializer(data=request.data)
@@ -64,54 +92,57 @@ def login(request):
             user = Users.objects.get(username=username)
         except Users.DoesNotExist:
             return Response({"error": "Invalid username"}, status=status.HTTP_400_BAD_REQUEST)
+        # if IsAdminUser:
+        if user.is_staff or user.is_superuser:
+            raise PermissionDenied("Admin cannot Login.")
 
         if check_password(password, user.password):
+            refresh = RefreshToken.for_user(user)
             user_data = UserSerializer(user).data
             return Response({
-                                "message": "Login successful",
-                                "user": user_data
-                             }, status=status.HTTP_200_OK)                       
+                "message": "Login successful",
+                "user": user_data,
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            }, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# if user.DoesNotExist:
-        #     return Response({'error': 'User not found!'})
-        # if Users.objects.filter(username = username).exists():
-            # return Response({'error': 'User not found'})
-        # if username != user.username:
-        #     return Response({'error': 'User not found'})
-#  user = authenticate(username=username, password=password)
+#for Admin Login
+class AdminTokenObtainPairView(TokenObtainPairView):
+    serializer_class = AdminTokenObtainPairSerializer
 
-    # if user is not None:
-    #     return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
-    # else:
-    #     return Response({"error": "Invalid username or password"}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+@permission_classes([IsAdminUser]) 
+def Admin_login(request):
+    serializer = UserLoginSerializer(data=request.data)
+    if serializer.is_valid():
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
 
-#Forget Password 
-# @api_view(['POST'])
-# def forget_password(request):
-#    if request.method == 'POST':
-#        email = request.data.get('email')
-#        try:
-#            user = Users.objects.get(email=email)
-#            otp = str(random.randint(100000, 999999))
-#            user.otp = otp
-#            user.save()
+        try:
+            user = Users.objects.get(username=username)
+        except Users.DoesNotExist:
+            return Response({"error": "Invalid username"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if not user.is_staff or user.is_superuser:
+            raise PermissionDenied("Only Admin can Login.")
+        
+        if check_password(password, user.password):
+            refresh = RefreshToken.for_user(user)
+            user_data = UserSerializer(user).data
+            return Response({
+                "message": "Login successful",
+                "user": user_data,
+                "access": str(refresh.access_token),
+                "refresh": str(refresh),
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Invalid password"}, status=status.HTTP_400_BAD_REQUEST)
 
-#            send_mail(
-#                'OTP',
-#                f"Hello User {email}. Your OTP:{otp}",
-#                'emilmathew@gmail.com',
-#                [email],
-#            )
-       
-#            return Response({ "Mail sent successfully!. Get OTP from your Mail"}) 
-#        except Exception as e:
-#             return Response({ "Failed to send your mail. Please try again."}) 
-#    else:
-#         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #FORGET PASSWORD
 #Generate OTP
@@ -168,28 +199,9 @@ def reset_password(request):
         return Response({"error": "User not found."})
 
 
-#Admin Access
-   
-# @api_view(['POST'])
-# # @permission_classes([IsAuthenticated])
-# def product_add(request):  
-#     username = request.data.get("username")
-#     username = User.objects.get(username = username)
-#     if username != username:
-#         return Response({"ERROR" : "Only Admin can add products!"})
-    
-#     serializer = Productserializer(data=request.data)
-
-#     if serializer.is_valid():  
-#         username = User.objects.get(username = username)     
-#         serializer.save()
-#         return Response({"message": "Product added successfully"})
-#     return Response(serializer.errors)
-
-# Admin access
 # Add Product
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated]) 
+@permission_classes([IsAdminUser]) 
 def add_product(request):
     if not request.user.is_staff: 
         raise PermissionDenied("Only admin can add products.")
@@ -202,7 +214,7 @@ def add_product(request):
 
 # Add Category
 @api_view(['POST'])
-# @permission_classes([IsAuthenticated]) 
+@permission_classes([IsAdminUser]) 
 def add_category(request):
     if not request.user.is_staff: 
         raise PermissionDenied("Only admin can create category.")
@@ -212,8 +224,9 @@ def add_category(request):
         serializer.save()
         return Response({"message" : "Category added successfully"})
     return Response(serializer.errors)
-#get category
 
+
+#get category
 @api_view(['GET'])
 def get_categories(request):
     categories = Category.objects.all()
@@ -221,9 +234,8 @@ def get_categories(request):
     return Response(serializer.data)
 
 #Admin Login
-
 @api_view(['POST'])
-@permission_classes([IsAuthenticated]) 
+@permission_classes([IsAdminUser]) 
 def admin_login(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -231,8 +243,8 @@ def admin_login(request):
         password = serializer.validated_data['password']
 
         try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
+            user = Users.objects.get(username=username)
+        except Users.DoesNotExist:
             return Response({"error": "User not found"}, status=404)
 
         # check password
@@ -247,7 +259,6 @@ def admin_login(request):
     return Response(serializer.errors, status=400)
 
 # category and product view
-
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -255,3 +266,138 @@ class CategoryListView(generics.ListAPIView):
 class ProductListView(generics.ListAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
+
+class ProductDetailView(generics.RetrieveAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer    
+
+#Cart
+class CartView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        cart_items = Cart.objects.filter(user=user)
+        serializer = CartSerializer(cart_items, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        user = request.user
+        product_id = request.data.get('product_id')
+        quantity = request.data.get('quantity', 1)
+
+        cart_item,created = Cart.objects.get_or_create(
+            user=user, product_id=product_id
+        )
+        cart_item.quantity = quantity
+        cart_item.save()
+        return Response({'message': 'Item added successfully'})
+
+    def delete(self, request):
+        user = request.user
+        product_id = request.data.get('product_id')
+        Cart.objects.filter(user=user, product_id=product_id).delete()
+        return Response({'message': 'Item removed'})
+
+# Orders
+class OrderItemView(generics.ListAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+
+class OrderListView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+class OrderView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        cart_items = Cart.objects.filter(user=user)
+
+        if not cart_items.exists():
+            return Response({"error": "Cart is empty"}, status=status.HTTP_400_BAD_REQUEST)
+
+        total_amount = sum(item.product.price * item.quantity for item in cart_items)
+
+        order = Order.objects.create(user=user, total_amount=total_amount)
+
+        for item in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.price
+            )
+
+        cart_items.delete()
+
+        return Response({"message": "Order placed successfully"}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
+def cart(request):
+   
+   serializer = CartSerializer(data=request.data)
+   if serializer.is_valid():
+        serializer.save()
+        return Response({"message" : "Product added to Cart"})
+   return Response(serializer.errors)
+
+
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import Order, OrderItem
+from .serializers import OrderSerializer
+from APIAPP.models import Cart
+
+
+# GET: List user’s orders
+class UserOrderListView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user= self.request.user).order_by('-created_at')
+
+
+# POST: Create an order from user's cart
+class OrderCreateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        cart = Cart.objects.filter(user=user).first()
+
+        if not cart or not cart.items.exists():
+            return Response({"detail": "Cart is empty."}, status=400)
+
+        # Calculate total
+        total = sum(item.product.price * item.quantity for item in cart.items.all())
+
+        # Create order
+        order = Order.objects.create(user=user, total=total)
+
+        # Copy cart items to order items
+        for item in cart.items.all():
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity)
+
+        # Clear cart
+        cart.items.all().delete()
+
+        return Response(OrderSerializer(order).data, status=201)
+
+#Order Summery
+class LatestOrderView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        latest_order = Order.objects.filter(user=request.user).order_by('-created_at').first()
+        if not latest_order:
+            return Response({"detail": "No recent orders found."}, status=404)
+        serializer = OrderSerializer(latest_order)
+        return Response(serializer.data)
