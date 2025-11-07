@@ -288,7 +288,8 @@ class CartView(APIView):
         quantity = request.data.get('quantity', 1)
 
         cart_item,created = Cart.objects.get_or_create(
-            user=user, product_id=product_id
+            user=user, 
+            product_id=product_id
         )
         cart_item.quantity = quantity
         cart_item.save()
@@ -401,3 +402,113 @@ class LatestOrderView(APIView):
             return Response({"detail": "No recent orders found."}, status=404)
         serializer = OrderSerializer(latest_order)
         return Response(serializer.data)
+
+#Users Details
+@api_view(['POST'])
+def cart(request):
+    pass
+#User given details while place orders
+class UserDetailsView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        user = request.user
+        details = UserDetails.objects.filter(user=user)
+        serializer = UserDetailsSerializer(details, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        user = request.user
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        email = request.data.get("email")
+        address = request.data.get('address')
+        town = request.data.get('town')
+
+        details,created = UserDetails.objects.get_or_create(
+            user=user, 
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            address=address,
+            town=town
+        )
+        details.save()
+        return Response({'message': 'Details saved'})
+
+    # def delete(self, request):
+    #     user = request.user
+    #     product_id = request.data.get('product_id')
+    #     Cart.objects.filter(user=user, product_id=product_id).delete()
+    #     return Response({'message': 'Item removed'})
+
+#Users Details (Edit profile)
+class UserMainDetailsView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        user = request.user
+        serializer = UserMainDetailsSerializer(user)
+        return Response(serializer.data)
+
+    def post(self, request):
+        user = request.user
+        data = request.data
+
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.email = data.get('email', user.email)
+        user.address = data.get('address', user.address)
+        user.town = data.get('town', user.town)
+        user.save()
+
+        return Response({'message': 'Details updated successfully'})
+
+#Admin dashboard CUSTOMERS
+class AllCustomersView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        users = Users.objects.all() 
+        data = []
+
+        for user in users:
+            orders = Order.objects.filter(user=user)
+            order_serializer = OrderSerializer(orders, many=True)
+            data.append({
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+                "town": user.town,
+                "address": user.address,
+                "orders": order_serializer.data
+            })
+        return Response(data)
+    
+
+# class CustomerListView(generics.ListAPIView):
+#     permission_classes = [permissions.IsAdminUser]
+#     queryset = Users.objects.all()
+#     serializer_class = CustomerSerializer
+
+# class AllCustomersView(APIView):
+#     permission_classes = [IsAdminUser]
+
+#     def get(self, request):
+#         users = Users.objects.all()
+#         serializer = CustomerSerializer(users, many=True)
+#         return Response(serializer.data)
+
+class AllCustomersOrderView(generics.ListAPIView):
+    queryset = Users.objects.all()
+    serializer_class = CustomerSerializer
+    permission_classes = [IsAdminUser]
+
+
+class AllCustomersView(generics.ListAPIView):
+    queryset = Users.objects.filter(is_superuser=False, is_staff=False)
+    serializer_class = CustomerDetailsSerializer
+    permission_classes = [IsAdminUser]   

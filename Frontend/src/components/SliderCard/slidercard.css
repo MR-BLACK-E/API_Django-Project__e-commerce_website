@@ -4,6 +4,7 @@
 }
 
 .homeSlide h1 {
+    /* color: rgb(255, 170, 0); */
     font-size: 45px;
     line-height: 55px;
     margin: 50px 0 20px 0;
@@ -27,6 +28,7 @@
 .homeSlide ul li button {
     background: transparent !important;
     color: transparent !important;
+    color: orange;
 }
 
 .homeSlide ul li button::before {

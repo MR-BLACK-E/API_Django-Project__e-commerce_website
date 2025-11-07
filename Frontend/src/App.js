@@ -17,6 +17,7 @@ const Shop = lazy(() => import("./pages/Shop"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Product = lazy(() => import("./pages/Product"));
 const UserAccount = lazy(() => import("./pages/UserAccount"));
+const UserDetails = lazy(() => import("./components/UserDetails"));
 
 const ProductList = lazy(() => import("./pages/ProductList"));
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/productsview" element={<ProductList />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/userdetails" element={<UserDetails />} />
           <Route path="/user" element={<ProtectedRoute><UserAccount/></ProtectedRoute>} />
           <Route path="/orders" element={<ProtectedRoute><MyOrders/></ProtectedRoute>} />
           <Route path="/summery" element={<ProtectedRoute><OrderSummery/></ProtectedRoute>} />

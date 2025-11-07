@@ -79,7 +79,7 @@ class OrderSerializer(serializers.ModelSerializer):
       
 
 
-
+#for Admin Dashboard Login
 class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -94,5 +94,33 @@ class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['username'] = user.username
         return data
 
+#Users Order Details
+class UserDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDetails
+        fields = ["first_name","last_name","email","address","town",]
 
+#Users Details
+class UserMainDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ["first_name","last_name","email","address","town",]
 
+#Admin dashboard Customers
+# class OrderSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Order
+#         fields = ["id", "total_amount", "address", "town", "status", "created_at"]
+
+class CustomerSerializer(serializers.ModelSerializer):
+    orders = OrderSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Users
+        fields = ["id", "first_name", "last_name", "email", "address", "town", "orders"]
+
+#All Customer details
+class CustomerDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ["id", "first_name", "last_name", "email", "address", "town"]

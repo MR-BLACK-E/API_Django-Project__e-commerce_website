@@ -2,3 +2,13 @@
     display:grid;
     place-items: center;
 }
+
+.ordercontainer{
+    /* background: rgb(231, 217, 212); */
+    place-items: center;
+    padding: 50px;
+}
+
+.card{
+    min-width: 350px;
+}

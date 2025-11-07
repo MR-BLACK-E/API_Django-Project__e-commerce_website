@@ -35,7 +35,7 @@ urlpatterns = [
     # path("orderitem/", OrderItemView.as_view(), name="orderlist"),
     # path("orders/", OrderView.as_view(), name="orders"),
 
-     path("cart/", CartView.as_view(), name="cart"), #Cart
+    path("cart/", CartView.as_view(), name="cart"), #Cart
     path("cart/<int:product_id>/", CartView.as_view(), name="cart-item"), #Cart
     path("order/", OrderView.as_view(), name="orders"), #Checkout
     path("order-items/", OrderItemView.as_view(), name="order-items"),
@@ -45,7 +45,13 @@ urlpatterns = [
     path('orders/create/', OrderCreateView.as_view(), name='order-create'),
     path('summery/', LatestOrderView.as_view(), name='order-list'), #OrderSummery  
 
+    path("userdetails/", UserDetailsView.as_view(), name="userdetails"), #User Order Details
+    path("usermaindetails/", UserMainDetailsView.as_view(), name="usermaindetails"), #User Details
+
+    path("customersorder/", AllCustomersOrderView.as_view(),name= 'allcustomers'),
+    path("allcustomerslist/", AllCustomersView.as_view(),name= 'allcustomerslist')
 
 ]
+
 
 

@@ -30,31 +30,34 @@ import wireless02 from "../Images/wireless-02.png";
 import wireless03 from "../Images/wireless-03.png";
 import wireless04 from "../Images/wireless-04.png";
 
-import sofaSlide from "../Images/hero-img.png";
+// import sofaSlide from "../Images/hero-img.png";
 import watchSlide from "../Images/watch-07.png";
 
+// import s20fe from "../Images/Products/s20fe.jpg";
+
+
 export const SliderData = [
-  {
-      id: 1,
-      title: "50% Off For Your First Shopping",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
-      cover: sofaSlide,
-  },
+  // {
+  //     id: 1,
+  //     title: "TAKE YOUR GADGETS TO THE NEXT LEVEL!",
+  //     desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
+  //     cover: s20fe,
+  // },
   {
       id: 2,
-      title: "50% Off For Your First Shopping",
+      title: "TAKE YOUR GADGETS TO THE NEXT LEVEL!",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
       cover: phone08,
   },
   {
       id: 3,
-      title: "50% Off For Your First Shopping",
+      title: "TAKE YOUR GADGETS TO THE NEXT LEVEL!",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
       cover: wireless01,
   },
   {
       id: 4,
-      title: "50% Off For Your First Shopping",
+      title: "TAKE YOUR GADGETS TO THE NEXT LEVEL!",
       desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis lobortis consequat eu, quam etiam at quis ut convallis.",
       cover: watchSlide,
   },

@@ -5,8 +5,10 @@ from django.contrib.auth.models import AbstractUser
 class Users(AbstractUser):
     # username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
-    otp = models.CharField(max_length=10000, default=1234)
+    # password = models.CharField(max_length=100)
+    otp = models.CharField(max_length=100, default=1234)
+    address = models.TextField(max_length=300, default='na')
+    town = models.CharField(max_length=100, default='na')
 
     # def __str__(self):
     #     return f"{self.username or 'No Username'}"
@@ -21,7 +23,7 @@ class Category(models.Model):
 
 #Admin Products
 class Products(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products", null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name="products", null=True, blank=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -33,8 +35,8 @@ class Products(models.Model):
        
 # User Cart
 class Cart(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="cart")
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="cart", default=1)
+    product = models.ForeignKey(Products, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
 
@@ -43,7 +45,7 @@ class Cart(models.Model):
     
 # User Order
 class Order(models.Model):
-    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="orders",default=1)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, default="Pending")
@@ -51,10 +53,20 @@ class Order(models.Model):
 #User Order Items
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
-    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.PositiveIntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 #Users Details
 class UserDetails(models.Model):
-    
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name="userdetails",default=1)
+    first_name = models.CharField(max_length=50 )
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    address = models.TextField(max_length=300)
+    town = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.user.username}"
+
+

@@ -22,7 +22,7 @@ const AddCategory = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div style={{placeItems:"center"}} className="container mt-5">
       <h2>Add Category</h2>
       <form onSubmit={handleAddCategory}>
         <input

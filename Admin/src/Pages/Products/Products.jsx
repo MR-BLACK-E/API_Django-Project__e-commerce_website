@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './Products.css'
 
 const AddProduct = () => {
   const [categories, setCategories] = useState([]);
@@ -76,7 +77,7 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container productscontainer mt-5">
       <h2>Add Product</h2>
       <form onSubmit={handleAddProduct}>
         <input

@@ -60,7 +60,7 @@ SIMPLE_JWT = {
 
 from datetime import timedelta
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),  # longer access
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=4),  # longer access
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
 
