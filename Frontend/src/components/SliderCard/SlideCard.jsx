@@ -1,4 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 import "./slidercard.css";
 
 const SlideCard = ({title,desc,cover}) => {
@@ -8,7 +10,7 @@ const SlideCard = ({title,desc,cover}) => {
           <Col md={6}>
             <h1>{title}</h1>
             <p>{desc}</p>
-            <button style={{background:"orange"}} className='btn'>Collections</button>
+           <Link to = "/shop"> <button style={{background:"orange"}} className='btn'>Collections</button></Link>
           </Col>
           <Col md={6}>
             <img src={cover} alt="#" />

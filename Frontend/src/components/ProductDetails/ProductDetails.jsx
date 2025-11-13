@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { addToBackendCart } from "../../app/features/cart/cartSlice"; // ✅ updated import
+import { addToBackendCart } from "../../app/features/cart/cartSlice";
 import "./product-details.css";
 
 const ProductDetails = ({ selectedProduct }) => {
@@ -20,7 +20,6 @@ const ProductDetails = ({ selectedProduct }) => {
       return;
     }
 
-    // ✅ Dispatch backend-synced cart action
     dispatch(
       addToBackendCart({
         product: selectedProduct,
@@ -70,14 +69,20 @@ const ProductDetails = ({ selectedProduct }) => {
               value={quantity}
               onChange={handleQuantityChange}
             />
-            <button
+            <div>
+              <h4>Description</h4>
+               < h5 className="mt-2">
+              {selectedProduct?.description || "No description available."}
+            </h5>
+            </div>
+            {/* <button
               aria-label="Add"
               type="submit"
               className="add"
               onClick={() => handleAdd(selectedProduct, quantity)}
             >
               Add To Cart
-            </button>
+            </button> */}
           </Col>
         </Row>
       </Container>

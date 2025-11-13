@@ -10,9 +10,10 @@ const Footer = () => {
             <Col md={3} sm={5} className='box'>
               <div className="logo">
                   <ion-icon name="bag"></ion-icon>
-                  <h1>Multimart</h1>
+                  <h1><span className="text-danger">Electro</span>-Mart</h1>
               </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor libero id et, in gravida. Sit diam duis mauris nulla cursus. Erat et lectus vel ut sollicitudin elit at amet.</p>
+              <p>Electro-Mart is your one-stop online destination for cutting-edge electronic products. Whether you're upgrading your gear or shopping for the latest innovations, Electro-Mart delivers a seamless shopping experience tailored for tech enthusiasts.
+</p>
             </Col>
             <Col md={3} sm={5} className='box'>
               <h2>About Us</h2>
@@ -37,9 +38,9 @@ const Footer = () => {
             <Col md={3} sm={5} className='box'>
               <h2>Contact Us</h2>
               <ul>
-                <li>70 Washington Square South, New York, NY 10012, United States </li>
-                <li>Email: uilib.help@gmail.com</li>
-                <li>Phone: +1 1123 456 780</li>
+                <li>10th avenue, kaloor, kochi, India </li>
+                <li>Email: electromart@gmail.com</li>
+                <li>Phone: +91 9947845653</li>
               </ul>
             </Col>
           </Row>

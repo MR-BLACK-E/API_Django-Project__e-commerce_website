@@ -34,12 +34,12 @@ const _nav = [
       text: 'NEW',
     },
   },
-  {
-    component: CNavItem,
-    name: 'Login',
-    to: '/Login',
-    icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Login',
+  //   to: '/Login',
+  //   icon: <CIcon icon={cilChartPie} customClassName="nav-icon" />,
+  // },
   {
     component: CNavItem,
     name: 'Category',

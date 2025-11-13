@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 import random
 from django.conf import settings
 #serializers
-from rest_framework import generics
+from rest_framework import generics,permissions
 from .serializers import *
 from .models import *
 from .models import Users
@@ -349,14 +349,6 @@ def cart(request):
    return Response(serializer.errors)
 
 
-from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from .models import Order, OrderItem
-from .serializers import OrderSerializer
-from APIAPP.models import Cart
-
-
 # GET: List user’s orders
 class UserOrderListView(generics.ListAPIView):
     serializer_class = OrderSerializer
@@ -404,10 +396,7 @@ class LatestOrderView(APIView):
         return Response(serializer.data)
 
 #Users Details
-@api_view(['POST'])
-def cart(request):
-    pass
-#User given details while place orders
+
 class UserDetailsView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]

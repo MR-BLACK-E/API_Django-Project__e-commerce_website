@@ -41,7 +41,7 @@ class Cart(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.product.name}"
+        return f"{self.user.username} "
     
 # User Order
 class Order(models.Model):
@@ -49,6 +49,11 @@ class Order(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, default="Pending")
+    # payment_method = models.CharField(max_length=50, default="COD")
+    payment_status = models.CharField(max_length=20, default="success")
+    def __str__(self):
+        return f"{self.user.username} - {self.total_amount}"
+
 
 #User Order Items
 class OrderItem(models.Model):
@@ -67,6 +72,6 @@ class UserDetails(models.Model):
     town = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"{self.user.username}"
+        return f"{self.user.username} - {self.first_name, self.last_name}"
 
 

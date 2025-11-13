@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "./UserAccount.css"
 
 const UserAccount = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const UserAccount = () => {
   };
 
   return (
-    <div className="container my-5 mt-5" style={{ minHeight: "600px" }}>
+    <div className="container my-5 mt-5 mainbackground" style={{ minHeight: "600px" }}>
       <div className="row">
         {/* Sidebar */}
         <div className="col-md-3">
@@ -285,166 +286,4 @@ const UserAccount = () => {
 };
 
 export default UserAccount;
-
-
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-
-// const UserAccount = () => {
-//   const navigate = useNavigate();
-//   const token = localStorage.getItem("accessToken");
-//   const [details, setDetails] = useState(null);
-
-//   // ✅ Fetch user details from backend
-//   const fetchUserDetails = async () => {
-//     try {
-//       const res = await axios.get("http://127.0.0.1:8000/api/usermaindetails/", {
-//         headers: { Authorization: `Bearer ${token}` },
-//       });
-
-//       // ✅ Backend returns a single object, not an array
-//       setDetails(res.data);
-//     } catch (err) {
-//       console.error("Error fetching user details:", err);
-//       toast.error("Failed to fetch user details");
-//     }
-//   };
-
-//   useEffect(() => {
-//     if (!token) {
-//       toast.error("Please login first!");
-//       navigate("/login");
-//       return;
-//     }
-//     fetchUserDetails();
-//     window.scrollTo(0, 0);
-//   }, []);
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("user");
-//     localStorage.removeItem("accessToken");
-//     toast.info("Logged out successfully");
-//     navigate("/login");
-//   };
-
-//   return (
-//     <div className="container my-5 mt-5" style={{ minHeight: "600px" }}>
-//       <div className="row">
-//         {/* Sidebar */}
-//         <div className="col-md-3">
-//           <div className="list-group shadow-sm">
-//             <h5 className="list-group-item fw-bold text-center bg-light">
-//               My Account
-//             </h5>
-//             <button
-//               className="list-group-item list-group-item-action"
-//               onClick={() => navigate("/userdetails")}
-//             >
-//               Add / Edit Details
-//             </button>
-//             <button
-//               className="list-group-item list-group-item-action"
-//               onClick={() => navigate("/orders")}
-//             >
-//               My Orders
-//             </button>
-//             <button
-//               className="list-group-item list-group-item-action"
-//               onClick={() => navigate("/cart")}
-//             >
-//               My Cart
-//             </button>
-//             <button
-//               className="list-group-item list-group-item-action"
-//               onClick={() => navigate("/summery")}
-//             >
-//               Order Summary
-//             </button>
-//             <button
-//               className="list-group-item list-group-item-action text-danger"
-//               onClick={handleLogout}
-//             >
-//               Logout
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Main Content */}
-//         <div className="col-md-9">
-//           <div className="card shadow-sm p-4">
-//             <h4 className="fw-bold mb-3">
-//               Welcome, {details?.first_name || "User"} {details?.last_name || ""}
-//             </h4>
-//             <p>
-//               <strong>Email:</strong> {details?.email || "N/A"}
-//             </p>
-
-//             <hr />
-
-//             {/* ✅ User Details Section */}
-//             <div className="user-details-section mb-4">
-//               <h5 className="fw-semibold mb-3 text-secondary">Your Details</h5>
-//               {details ? (
-//                 <div className="p-3 border rounded bg-light">
-//                   <p>
-//                     <strong>Name:</strong> {details.first_name}{" "}
-//                     {details.last_name}
-//                   </p>
-//                   <p>
-//                     <strong>Email:</strong> {details.email}
-//                   </p>
-//                   <p>
-//                     <strong>Address:</strong> {details.address}
-//                   </p>
-//                   <p>
-//                     <strong>Town/City:</strong> {details.town}
-//                   </p>
-//                 </div>
-//               ) : (
-//                 <div className="text-muted">
-//                   No user details found.{" "}
-//                   <button
-//                     className="btn btn-link p-0"
-//                     onClick={() => navigate("/userdetails")}
-//                   >
-//                     Add now
-//                   </button>
-//                 </div>
-//               )}
-//             </div>
-
-//             <hr />
-
-//             {/* Quick Links */}
-//             <h5>Quick Links</h5>
-//             <div className="d-flex flex-wrap gap-3 mt-3">
-//               <button
-//                 onClick={() => navigate("/orders")}
-//                 className="btn btn-outline-primary"
-//               >
-//                 My Orders
-//               </button>
-//               <button
-//                 onClick={() => navigate("/cart")}
-//                 className="btn btn-outline-warning"
-//               >
-//                 My Cart
-//               </button>
-//               <button
-//                 onClick={() => navigate("/checkout")}
-//                 className="btn btn-outline-success"
-//               >
-//                 Checkout
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default UserAccount;
 

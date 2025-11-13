@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./navbar.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ProtectedRoute from "../ProtectedRoute";
+// import ProtectedRoute from "../ProtectedRoute";
 const NavBar = () => {
   const { cartList } = useSelector((state) => state.cart);
   const [expand, setExpand] = useState(false);
@@ -32,7 +32,7 @@ const NavBar = () => {
       <Container className="navbar-container">
         <Navbar.Brand to="/">
           <ion-icon name="bag"></ion-icon>
-          <h1 className="logo">Multimart</h1>
+          <h1 className="logo"><span className="text-danger">E</span>-Mart</h1>
         </Navbar.Brand>
         {/* Media cart and toggle */}
         <div className="d-flex">
