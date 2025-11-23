@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-t4p=mro45tp^-_5$6f$^k=y%)az&fm$9ztogg-m1bn(2fmmy=%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['*']
 ALLOWED_HOSTS = []
+
 
 
 
@@ -74,7 +76,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
-]
+] 
 
 # Allow React frontend
 CORS_ALLOWED_ORIGINS = [

@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UserAccount.css"
+import Orderslogo from '../Images/svg/orderslogo.svg';
+import Cartlogo from '../Images/svg/cartlogo.svg';
+import Checkoutlogo from '../Images/svg/checkoutlogo.svg';
+
+
 
 const UserAccount = () => {
   const navigate = useNavigate();
@@ -164,24 +169,36 @@ const UserAccount = () => {
             {/* Quick Links */}
             <h5>Quick Links</h5>
             <div className="d-flex flex-wrap gap-3 mt-3">
-              <button
+              {/* <button
                 onClick={() => navigate("/orders")}
-                className="btn btn-outline-primary"
+                className="btn -success"
               >
                 My Orders
-              </button>
-              <button
+              </button> */}
+              <div onClick={() => navigate("/orders")} className="text-center svg">
+              <img onClick={() => navigate("/orders")} src={Orderslogo} alt="Logo" style={{maxWidth:50}} className="effect"/>
+              <p>My Orders</p>
+              </div>
+              {/* <button
                 onClick={() => navigate("/cart")}
                 className="btn btn-outline-warning"
               >
                 My Cart
-              </button>
-              <button
+              </button> */}
+              <div onClick={() => navigate("/cart")} className="text-center svg">
+              <img onClick={() => navigate("/cart")} src={Cartlogo} alt="Logo" style={{maxWidth:50}} className="effect"/>
+              <p>Cart</p>
+              </div>
+              {/* <button
                 onClick={() => navigate("/checkout")}
                 className="btn btn-outline-success"
               >
                 Checkout
-              </button>
+              </button> */}
+              <div onClick={() => navigate("/checkout")} className="text-center svg" >
+              <img onClick={() => navigate("/checkout")} src={Checkoutlogo} alt="Logo" style={{maxWidth:50}} className="effect"/>
+              <p>Checkout</p>
+              </div>
             </div>
           </div>
         </div>
