@@ -83,7 +83,7 @@ const UserAccount = () => {
       <div className="row">
         {/* Sidebar */}
         <div className="col-md-3">
-          <div className="list-group shadow-sm">
+          <div className="list-group shadow-lg">
             <h5 className="list-group-item fw-bold text-center bg-light">
               My Account
             </h5>
@@ -121,8 +121,8 @@ const UserAccount = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-md-9">
-          <div className="card shadow-sm p-4">
+        <div className="col-md-9 ">
+          <div className="card shadow-lg p-4">
             <h4 className="fw-bold mb-3">
               Welcome, {details?.first_name || "User"} {details?.last_name || ""}
             </h4>

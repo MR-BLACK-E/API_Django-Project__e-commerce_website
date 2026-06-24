@@ -30,10 +30,12 @@ const NavBar = () => {
       className={isFixed ? "navbar fixed" : "navbar"}
     >
       <Container className="navbar-container">
+        <Link className="nav-link-label" to="/">
         <Navbar.Brand to="/">
           <ion-icon name="bag"></ion-icon>
           <h1 className="logo"><span className="text-danger">E</span>-Mart</h1>
         </Navbar.Brand>
+        </Link>
         {/* Media cart and toggle */}
         <div className="d-flex">
           <div className="media-cart">
@@ -166,7 +168,7 @@ const NavBar = () => {
               </Link>
             </Nav.Item> */}
 
-            <Nav.Item>
+            {/* <Nav.Item>
               <Link
                 aria-label="Go to Cart Page"
                 className="navbar-link"
@@ -175,7 +177,8 @@ const NavBar = () => {
               >
                 <span className="nav-link-label">Cart</span>
               </Link>
-            </Nav.Item>
+            </Nav.Item> */}
+            
             <Nav.Item className="expanded-cart">
                <Link
                 aria-label="Go to Cart Page"
@@ -196,6 +199,7 @@ const NavBar = () => {
                 />
               </svg>
               </Link>
+              
               <Link
                 aria-label="Go to Cart Page"
                 to="/cart"

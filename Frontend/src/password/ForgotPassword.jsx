@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Banner from "../components/Banner/Banner";
+// import Banner from "../components/Banner/Banner";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

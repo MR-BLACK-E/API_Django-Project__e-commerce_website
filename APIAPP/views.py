@@ -35,7 +35,10 @@ def register(request):
         user = serializer.save(is_staff=False, is_superuser=False)       
         # serializer.save()
         return Response({"message": "User registered successfully"})
-    return Response(serializer.errors)
+    
+    return Response(serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST
+                    )
 
 #login
 # @api_view(['POST'])
@@ -152,6 +155,7 @@ def send_email(request):
        email = request.data.get('email')
        try:
            user = Users.objects.get(email=email)
+        #    username = Users.objects.get(username=username)
            otp = str(random.randint(100000, 999999))
            user.otp = otp
            user.save()
@@ -164,7 +168,8 @@ def send_email(request):
         
            html_content = render_to_string('email.html', {
                'email': email,
-               'otp': otp
+               'otp': otp,
+            #    'username': username,
            })
 
 

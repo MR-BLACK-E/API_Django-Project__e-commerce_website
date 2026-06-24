@@ -15,8 +15,8 @@ html {
 }
 
 body {
-  background-color: #ffffff;
-  /* background-color: black; */
+  background-color: #fff;
+  /* background-color: rgb(234, 214, 230) !important; */
   margin: 0;
   font-family: "Lato", sans-serif;
   -webkit-font-smoothing: antialiased;

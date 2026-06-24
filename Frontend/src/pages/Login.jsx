@@ -68,7 +68,7 @@ const Login = () => {
                 <div className="mb-3">
                   <input
                     type="text"
-                    className="form-control py-3"
+                    className="form-control py-3 border-white shadow"
                     placeholder="Your Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -79,7 +79,7 @@ const Login = () => {
                 <div className="mb-3">
                   <input
                     type="password"
-                    className="form-control py-3"
+                    className="form-control py-3 border-white shadow"
                     placeholder="Your Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -90,7 +90,7 @@ const Login = () => {
                 <div className="d-grid">
                   <button
                     type="submit"
-                    className="btn btn-outline-warning py-3 fw-semibold"
+                    className="btn btn-outline-warning py-3 fw-semibold shadow"
                   >
                     Login
                   </button>

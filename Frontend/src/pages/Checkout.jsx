@@ -128,7 +128,7 @@ const Checkout = () => {
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control border-white shadow"
                 />
               </div>
               <div className="mb-3">
@@ -140,7 +140,7 @@ const Checkout = () => {
                   name="last_name"
                   value={formData.last_name}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control border-white shadow"
                 />
               </div>
               <div className="mb-3">
@@ -152,7 +152,7 @@ const Checkout = () => {
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control border-white shadow"
                 />
               </div>
               <div className="mb-3">
@@ -164,7 +164,7 @@ const Checkout = () => {
                   name="town"
                   value={formData.town}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control border-white shadow"
                 />
               </div>
               <div className="mb-3">
@@ -176,7 +176,7 @@ const Checkout = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control border-white shadow"
                 />
               </div>
             </form>

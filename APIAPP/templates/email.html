@@ -36,13 +36,30 @@
     .otp h3{
         color: rgb(252, 69, 45);
     }
+    .red{
+        color: red;
+    }
+    h1{
+        font-weight: 500;
+    }
+    .white{
+        color:#fff
+    }
+    .head{
+        display: grid;
+        place-items: center;
+    }
+
 </style>
 </head>
 
 <body>
     <div class="main">
+        <div class="head">
+        <h1><span class="red">Electro</span> <span class="white">-Mart</span></h1>
+        </div>
         <h2>Password Reset OTP</h2>
-        <p>Hellow {{email}},</p>
+        <p>Hello {{email}},</p>
         <p> Your One Time Password is:</p>
         <div class="otp"><h3>{{otp}}</h3></div>
         <p>You can change your password using this OTP</p>

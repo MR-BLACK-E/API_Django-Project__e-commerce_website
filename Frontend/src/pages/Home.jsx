@@ -34,7 +34,7 @@ const Home = () => {
 
       <Section title="New Arrivals" bgColor="white" productItems={newArrivals} />
 
-      <Section title="Best Sales" bgColor="#f6f9fc" productItems={bestSales} />
+      <Section title="Best Sales" bgColor="#e6d8e0" productItems={bestSales} />
     </Fragment>
   );
 };

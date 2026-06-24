@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Banner from "../components/Banner/Banner";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+// import Banner from "../components/Banner/Banner";
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     otp: "",
@@ -26,7 +29,9 @@ const ResetPassword = () => {
         formData
       );
 
+      toast.success(`Password reset successful!`);
       setMessage(response.data.message || "Password reset successful!");
+      navigate ("/login");
     } catch (err) {
       setError(
         err.response?.data?.error || "Invalid details. Please try again."

@@ -2,32 +2,59 @@ import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { addToBackendCart } from "../../app/features/cart/cartSlice";
 import "./product-details.css";
 
 const ProductDetails = ({ selectedProduct }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+  const navigate = useNavigate();
 
   const handleQuantityChange = (e) => {
     setQuantity(e.target.value);
   };
+const handleAdd = async () => {
+  const token = localStorage.getItem("accessToken");
 
-  const handleAdd = (selectedProduct, quantity) => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      toast.error("Please login first!");
-      return;
-    }
+  if (!token) {
+    toast.error("Please login to add items to your cart.");
+    navigate("/login");
+    return;
+  }
 
-    dispatch(
+  const productId =
+    selectedProduct?.id ||
+    selectedProduct?._id ||
+    selectedProduct?.product_id ||
+    selectedProduct?.product ||
+    selectedProduct?.slug;
+
+  if (!productId) {
+    toast.error("Invalid product data — cannot add to cart.");
+    return;
+  }
+
+  try {
+    await dispatch(
       addToBackendCart({
-        product: selectedProduct,
-        num: quantity,
+        product_id: productId,
+        quantity: Number(quantity),
       })
-    );
-    toast.success("✅ Product added to your cart!");
-  };
+    ).unwrap();
+
+    toast.success("Product added to your cart!");
+  } catch (error) {
+    console.error("Cart Add Error:", error);
+
+    if (error === "User not authenticated.") {
+      toast.error("Session expired. Please login again.");
+      navigate("/login");
+    } else {
+      toast.error("Failed to add item to cart. Try again.");
+    }
+  }
+};
 
   return (
     <section className="product-page">
@@ -71,18 +98,18 @@ const ProductDetails = ({ selectedProduct }) => {
             />
             <div>
               <h4>Description</h4>
-               < h5 className="mt-2">
+               <h5 className="mt-2">
               {selectedProduct?.description || "No description available."}
             </h5>
             </div>
-            {/* <button
+            <button
               aria-label="Add"
-              type="submit"
+              type="button"
               className="add"
-              onClick={() => handleAdd(selectedProduct, quantity)}
+              onClick={handleAdd}
             >
               Add To Cart
-            </button> */}
+            </button>
           </Col>
         </Row>
       </Container>

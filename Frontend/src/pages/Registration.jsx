@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // import Banner from "../components/Banner/Banner";
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,13 +25,21 @@ const Register = () => {
       });
 
       setSuccess("Registration successful ✅ Now you can login!");
+      toast.success(`Registration successful ✅ Now you can login!`);
       console.log("Registered User:", response.data);
+        navigate ("/login");
 
       setUsername("");
       setEmail("");
       setPassword("");
     } catch (err) {
-      setError("Registration failed ❌ Try again");
+        if (err.response?.data?.username) {
+          setError(err.response.data.username[0]);
+        } else if (err.response?.data?.email) {
+          setError(err.response.data.email[0]);
+        } else {
+          setError("Registration failed ❌ Try again");
+        }
     }
   };
 
